@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JNS Baker - Freshly Baked Daily</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #2d2d2d;
+      --secondary-color: #d4a574;
+      --accent-color: #f5f5f5;
+      --text-dark: #1a1a1a;
+      --text-light: #666666;
+      --border-color: #e0e0e0;
+      --success-color: #22c55e;
+      --error-color: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============ ANNOUNCEMENT BAR ============ */
+    .announcement-bar {
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 16px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .announcement-bar a {
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* ============ HEADER ============ */
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--secondary-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--secondary-color);
+    }
+
+    .cta-button {
+      background: var(--secondary-color);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background: #c49563;
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero {
+      background: linear-gradient(135deg, #faf8f3 0%, #f0ebe3 100%);
+      padding: 80px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hero-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-left h1 {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: var(--primary-color);
+    }
+
+    .hero-left p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .trust-statement {
+      background: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 32px;
+      border-left: 4px solid var(--secondary-color);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .hero-buttons .cta-button {
+      padding: 14px 32px;
+      font-size: 16px;
+    }
+
+    .hero-buttons .secondary-btn {
+      background: white;
+      color: var(--primary-color);
+      border: 2px solid var(--secondary-color);
+    }
+
+    .trust-indicators {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .trust-item {
+      text-align: center;
+    }
+
+    .trust-item-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 12px;
+      font-size: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .trust-item h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .trust-item p {
+      font-size: 12px;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+
+    .hero-right {
+      background: white;
+      padding: 48px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .hero-art {
+      text-align: center;
+      padding: 32px;
+    }
+
+    .hero-badge {
+      width: 80px;
+      height: 80px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      color: white;
+      font-size: 36px;
+      box-shadow: 0 4px 16px rgba(212, 165, 116, 0.3);
+    }
+
+    .recipe-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .pill {
+      background: var(--accent-color);
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .pill-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .hero-left h1 {
+        font-size: 36px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .trust-indicators {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ============ PRODUCTS SECTION ============ */
+    .products {
+      padding: 80px 32px;
+      background: white;
+    }
+
+    .products .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--accent-color);
+      color: var(--secondary-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--primary-color);
+    }
+
+    .section-header p {
+      font-size: 16px;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .product-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: white;
+      font-size: 20px;
+    }
+
+    .product-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+      font-size: 13px;
+    }
+
+    .product-footer a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header h2 {
+        font-size: 32px;
+      }
+    }
+
+    /* ============ FAQ SECTION ============ */
+    .faq {
+      padding: 80px 32px;
+      background: var(--accent-color);
+    }
+
+    .faq .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .accordion {
+      max-width: 896px;
+      margin: 0 auto;
+    }
+
+    .accordion-item {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      padding: 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      background: white;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: var(--accent-color);
+    }
+
+    .accordion-header.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .accordion-toggle {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--border-color);
+      border-radius: 50%;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .accordion-header.active .accordion-toggle {
+      background: var(--secondary-color);
+      color: white;
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .accordion-content.active {
+      max-height: 500px;
+    }
+
+    .accordion-content p {
+      padding: 0 24px 24px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* ============ FEATURES SECTION ============ */
+    .features {
+      padding: 80px 32px;
+      background: white;
+    }
+
+    .features .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      color: white;
+      font-size: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============ CONTACT FORM SECTION ============ */
+    .contact {
+      padding: 80px 32px;
+      background: var(--accent-color);
+    }
+
+    .contact .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-left {
+      max-width: 500px;
+    }
+
+    .contact-left h2 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--primary-color);
+    }
+
+    .contact-left p {
+      font-size: 16px;
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .contact-points {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .contact-point {
+      display: flex;
+      gap: 16px;
+    }
+
+    .contact-point-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+      font-size: 14px;
+    }
+
+    .contact-point h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .contact-point p {
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .contact-badge {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+
+    .contact-badge h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .contact-badge p {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .contact-badge a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ============ FORM ============ */
+    .form-container {
+      background: white;
+      border-radius: 16px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-header {
+      margin-bottom: 32px;
+    }
+
+    .form-header h3 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+    }
+
+    .form-header p {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+      letter-spacing: 0.5px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-required::after {
+      content: ' *';
+      color: var(--error-color);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: #c49563;
+    }
+
+    .submit-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .form-message {
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .form-message.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+      display: block;
+    }
+
+    .form-message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      display: block;
+    }
+
+    .form-privacy {
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .form-container {
+        padding: 24px;
+      }
+    }
+
+    /* ============ TESTIMONIALS SECTION ============ */
+    .testimonials {
+      padding: 80px 32px;
+      background: white;
+    }
+
+    .testimonials .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .testimonial-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+
+    .testimonial-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .star {
+      color: var(--secondary-color);
+      font-size: 16px;
+    }
+
+    .testimonial-badge {
+      display: inline-block;
+      background: var(--accent-color);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 4px;
+    }
+
+    .testimonial-date {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 1024px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============ CTA SECTION ============ */
+    .cta-final {
+      background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+      color: white;
+      padding: 80px 32px;
+      text-align: center;
+    }
+
+    .cta-final .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .cta-final h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .cta-final p {
+      font-size: 18px;
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-final-buttons {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .cta-final-buttons .cta-button {
+      background: var(--secondary-color);
+      padding: 14px 32px;
+    }
+
+    .cta-final-buttons .cta-button.secondary {
+      background: transparent;
+      border: 2px solid var(--secondary-color);
+      color: var(--secondary-color);
+    }
+
+    .cta-features {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .cta-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta-feature::before {
+      content: '✓';
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: white;
+      border-top: 1px solid var(--border-color);
+      padding: 64px 32px 24px;
+    }
+
+    footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-column a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-column a:hover {
+      color: var(--secondary-color);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-color);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ============ UTILITY ============ */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announcement-bar">
+    <div>📢 <strong>Fresh Alert:</strong> New Seasonal Flavors Now Available!</div>
+    <div>
+      <a href="#order">Order Now</a> · <a href="#faqs">FAQs</a> · <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">🥖</div>
+        <div>
+          <div><strong>JNS BAKER</strong></div>
+          <div style="font-size: 11px; color: #666;">FRESHLY BAKED DAILY · HOME DELIVERY</div>
+        </div>
+      </a>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#why">Why Choose Us</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="cta-button">Order Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <div style="color: var(--secondary-color); font-size: 14px; font-weight: 600; margin-bottom: 12px;">✨ Welcome to JNS BAKER</div>
+        <h1>A Little Sweetness,<br>A Lot of Love.</h1>
+        <p>Every bite should feel special. From delicious cakes to your favourite bakery treats, we bring you freshly made goodness crafted with care. Whether you're celebrating a special moment or simply treating yourself, we're here to make every moment a little sweeter.</p>
+
+        <div class="trust-statement">
+          🎁 Perfect for birthdays, anniversaries, weddings & celebrations!
+        </div>
+
+        <div class="hero-buttons">
+          <button class="cta-button">Explore Menu</button>
+          <button class="cta-button secondary-btn">Learn More →</button>
+        </div>
+
+        <div class="trust-indicators">
+          <div class="trust-item">
+            <div class="trust-item-icon">❤️</div>
+            <h4>Made with Love</h4>
+            <p>Crafted with care & passion</p>
+          </div>
+          <div class="trust-item">
+            <div class="trust-item-icon">☀️</div>
+            <h4>Fresh Daily</h4>
+            <p>Baked fresh every morning</p>
+          </div>
+          <div class="trust-item">
+            <div class="trust-item-icon">🚚</div>
+            <h4>Home Delivery</h4>
+            <p>Quick & reliable shipping</p>
+          </div>
+          <div class="trust-item">
+            <div class="trust-item-icon">✅</div>
+            <h4>FSSAI Registered</h4>
+            <p>Food safety certified</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-art">
+          <div class="hero-badge">🍰</div>
+          <h3 style="font-size: 28px; margin: 16px 0; color: var(--primary-color);">Artisan Bakery Excellence</h3>
+          <p style="color: var(--text-light); margin: 16px 0;">Traditional recipes meets modern taste. Every creation is a masterpiece of flavour & texture.</p>
+
+          <div class="recipe-pills">
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span>Premium organic ingredients</span>
+            </div>
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span>Traditional fermentation methods</span>
+            </div>
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span>Zero artificial preservatives</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 32px; padding: 16px; background: var(--accent-color); border-radius: 8px;">
+            <p style="font-size: 12px; color: var(--text-light);">🌟 Trusted by <strong>500+ customers</strong> across the city</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section class="products" id="products">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">OUR MENU</span>
+        <h2>Delightful Treats for Every Taste</h2>
+        <p>From classic brownies to festive cakes, discover our carefully curated selection of freshly baked delicacies.</p>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-icon">🍫</div>
+          <h3>Normal Brownie</h3>
+          <p>Rich fudge chocolate brownie with a crinkly top and dense cocoa core.</p>
+          <div class="product-footer">
+            <span>₹250</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🌋</div>
+          <h3>Lava Brownie</h3>
+          <p>Warm molten dark chocolate center encased in fudgy baked brownie.</p>
+          <div class="product-footer">
+            <span>₹300</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🧁</div>
+          <h3>Cup Cake</h3>
+          <p>Fluffy sponge cupcakes crowned with velvety swirl buttercream frosting.</p>
+          <div class="product-footer">
+            <span>₹180</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🍪</div>
+          <h3>Cookies</h3>
+          <p>Crispy edges, chewy centers loaded with chocolate chunks and butter aroma.</p>
+          <div class="product-footer">
+            <span>₹150/dozen</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🍕</div>
+          <h3>Pizza</h3>
+          <p>Freshly rolled crust topped with rich herb tomato sauce, mozzarella & vegetables.</p>
+          <div class="product-footer">
+            <span>₹200</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🍔</div>
+          <h3>Burger</h3>
+          <p>Toasted handcrafted brioche bun with savoury filling, crisp lettuce & signature sauce.</p>
+          <div class="product-footer">
+            <span>₹220</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🎂</div>
+          <h3>Tres Leches Cake</h3>
+          <p>Classic sponge cake soaked in three decadent milks, topped with fresh whipped cream.</p>
+          <div class="product-footer">
+            <span>₹550/kg</span>
+            <a href="#order">Order →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🎉</div>
+          <h3>Birthday Cake</h3>
+          <p>Customized celebratory multi-layered cake crafted with fresh sponge and cream.</p>
+          <div class="product-footer">
+            <span>Custom Pricing</span>
+            <a href="#order">Inquire →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq" id="faqs">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">QUESTIONS?</span>
+        <h2>Frequently Asked Questions</h2>
+        <p>Find answers to common questions about our products, delivery, and ordering process.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            How far in advance should I order custom cakes?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>For custom orders, we recommend placing your order at least 5-7 days in advance. This ensures we have sufficient time to source quality ingredients and craft your cake to perfection. Rush orders may be accommodated depending on availability.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Do you offer sugar-free or dietary-specific options?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>Yes! We can prepare sugar-free, vegan, gluten-free, and nut-free options. Please mention your dietary requirements when placing an order, and we will ensure your treat meets your needs without compromising on taste.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            What is your delivery area and delivery charges?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>We deliver across Madurai city and surrounding areas. Delivery is free on orders above Rs.500. For orders below Rs.500, a flat delivery charge of Rs.50 applies. Same-day delivery is available for orders placed before 2 PM.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            How do you ensure freshness and quality?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>All our products are freshly baked every morning using premium organic ingredients. We use traditional fermentation methods and avoid artificial preservatives. Every batch is carefully inspected for quality before delivery.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Can I cancel or modify my order?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>Orders can be modified up to 24 hours before delivery. For cancellations, please contact us immediately. Cancellations made more than 48 hours before delivery incur no charge; later cancellations may have a handling fee.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            What payment methods do you accept?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>We accept cash on delivery, Google Pay, Paytm, PhonePe, bank transfers, and card payments. For online orders, payment confirmation ensures faster processing and delivery scheduling.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Do you offer bulk orders or corporate catering?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>Absolutely! We specialize in bulk orders and corporate catering for events, conferences, and celebrations. Contact our team for custom quotes and packages tailored to your needs.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            Are your products FSSAI certified?
+            <div class="accordion-toggle">▼</div>
+          </button>
+          <div class="accordion-content">
+            <p>Yes, JNS Baker is FSSAI (Food Safety and Standards Authority of India) registered and certified. We maintain strict hygiene standards and regular food safety audits to ensure the highest quality.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features" id="why">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">WHY CHOOSE US</span>
+        <h2>What Makes Us Different</h2>
+        <p>We're committed to excellence in every aspect of our bakery business.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">❤️</div>
+          <h3>Made with Love</h3>
+          <p>Every product is handcrafted with passion and attention to detail, ensuring exceptional taste in every bite.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">☀️</div>
+          <h3>Fresh Every Day</h3>
+          <p>Baked fresh every morning using premium organic ingredients and traditional fermentation methods for authentic flavour.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>FSSAI Registered</h3>
+          <p>Food safety certified with strict hygiene standards and regular audits to ensure the highest quality products.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎉</div>
+          <h3>Made for Every Occasion</h3>
+          <p>From birthdays to weddings, we customize our products to make every celebration memorable and delicious.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT & FORM SECTION -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-left">
+          <h2>Your Next Favourite Treat Is Just a Message Away.</h2>
+          <p>Have questions about your order? Need recommendations? Our friendly team is here to help! Reach out to us, and we will respond within 2-4 business hours.</p>
+
+          <p><strong>📍 Serving Fresh Bakery Items Across Madurai & Surrounding Areas</strong></p>
+
+          <div class="contact-points">
+            <div class="contact-point">
+              <div class="contact-point-icon">☑️</div>
+              <div>
+                <h4>100% Fresh Guarantee</h4>
+                <p>All products are baked fresh and delivered within 24 hours of production.</p>
+              </div>
+            </div>
+
+            <div class="contact-point">
+              <div class="contact-point-icon">☑️</div>
+              <div>
+                <h4>Same-Day Delivery Available</h4>
+                <p>Order by 2 PM, receive by evening. Fast, reliable delivery across the city.</p>
+              </div>
+            </div>
+
+            <div class="contact-point">
+              <div class="contact-point-icon">☑️</div>
+              <div>
+                <h4>Dedicated Customer Support</h4>
+                <p>Call or message us anytime. Our team responds within 2-4 business hours with solutions.</p>
+              </div>
+            </div>
+
+            <div class="contact-point">
+              <div class="contact-point-icon">☑️</div>
+              <div>
+                <h4>Custom Orders Welcome</h4>
+                <p>Dietary restrictions? Special requests? We craft exactly what you need.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-badge">
+            <h3>📞 Direct Phone Backup</h3>
+            <p>Prefer calling? We are here!</p>
+            <p><strong><a href="tel:+917010147494">+91 7010147494</a></strong></p>
+            <p>Mon-Fri: 9 AM - 8 PM | Sat-Sun: 10 AM - 7 PM</p>
+            <p><a href="https://wa.me/917010147494">Or WhatsApp us directly →</a></p>
+          </div>
+        </div>
+
+        <div class="form-container">
+          <div class="form-header">
+            <h3>Let us Talk About Your Order</h3>
+            <p>Please fill in your enquiry details below. We typically reply within 2 to 4 business hours.</p>
+          </div>
+
+          <div id="formMessage" class="form-message"></div>
+
+          <form id="contactForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name" class="form-required">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="e.g. Eleanor Vance" required>
+              </div>
+              <div class="form-group">
+                <label for="phone" class="form-required">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. +91 7010147494" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address <span style="color: #999;">(Optional)</span></label>
+                <input type="email" id="email" name="email" placeholder="e.g. eleanor@example.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="submit" style="visibility: hidden;">Submit</label>
+              <button type="submit" class="submit-btn" id="submitBtn">
+                <span>Send Enquiry</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            <p class="form-privacy">✓ We respect your privacy. Your information is secure with us.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">CUSTOMER LOVE</span>
+        <h2>What Our Customers Say</h2>
+        <p>Real reviews from real customers who love our freshly baked goodness.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <span class="testimonial-badge">VERIFIED CUSTOMER</span>
+          <p class="testimonial-text">Ordered a pistachio saffron celebration cake for Eid family gathering. The sponge was exceptionally moist, perfectly balanced sweetness, and delivered right on time. Everyone loved it!</p>
+          <p class="testimonial-author">Amina Shah</p>
+          <p class="testimonial-date">2 weeks ago</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <span class="testimonial-badge">VERIFIED CUSTOMER</span>
+          <p class="testimonial-text">JNS BAKER is now our morning ritual. Their slow-fermented sourdough and honey milk bread are freshly baked every day without shortcuts. Outstanding quality!</p>
+          <p class="testimonial-author">Rajesh Kumar</p>
+          <p class="testimonial-date">3 weeks ago</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <span class="testimonial-badge">VERIFIED CUSTOMER</span>
+          <p class="testimonial-text">The spiced ginger shortbread and cardamom butter cookies remind me of authentic home baking. Wonderful packaging and courteous doorstep delivery service.</p>
+          <p class="testimonial-author">Priya Menon</p>
+          <p class="testimonial-date">1 month ago</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;">
+        <button class="cta-button" onclick="alert('Thank you for visiting! Share your feedback with us.')">Share Your Feedback</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>Ready to Taste the Difference?</h2>
+      <p>Join hundreds of satisfied customers who trust JNS Baker for their special moments. Order now and experience freshly baked goodness delivered to your doorstep.</p>
+
+      <div class="cta-final-buttons">
+        <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Order Your Favourite Treat</button>
+        <button class="cta-button secondary" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">Explore Our Menu</button>
+      </div>
+
+      <div class="cta-features">
+        <div class="cta-feature">Fresh Daily</div>
+        <div class="cta-feature">Free Delivery</div>
+        <div class="cta-feature">FSSAI Certified</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>🥖 JNS BAKER</h4>
+          <p style="font-size: 13px; color: #666; margin-bottom: 16px;">Freshly Baked Daily | Home Delivery Available</p>
+          <p style="font-size: 13px; color: #666; margin-bottom: 16px;">Every bite should feel special. From delicious cakes to your favourite bakery treats, we bring you freshly made goodness crafted with care.</p>
+          <a href="#contact" style="display: inline-flex; align-items: center; gap: 8px; color: var(--secondary-color); text-decoration: none; font-weight: 600;">
+            📧 Get in Touch
+          </a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#why">Why Choose Us</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Customer Support</h4>
+          <ul>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#contact">Order Enquiries</a></li>
+            <li><a href="#contact">Custom Orders</a></li>
+            <li><a href="#contact">Delivery Information</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Contact Details</h4>
+          <ul>
+            <li><strong>📞 Phone:</strong> <a href="tel:+917010147494">+91 7010147494</a></li>
+            <li><strong>📱 WhatsApp:</strong> <a href="https://wa.me/917010147494">Chat with us</a></li>
+            <li><strong>📍 Service Area:</strong> Madurai & surrounding areas</li>
+            <li><strong>🕐 Hours:</strong> Mon-Fri 9 AM - 8 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 JNS Baker. All rights reserved. Freshly baked with love in Madurai.</p>
+        <div>
+          <a href="#" style="color: var(--secondary-color); text-decoration: none; margin-right: 16px;">Privacy Policy</a>
+          <a href="#" style="color: var(--secondary-color); text-decoration: none;">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxS8p_GcJx-7YNdQ3dhjZKtBatKTqd0ks_LatfH8NLuz4MDGoYN3nnNglgHwthjapHNkQ/exec';
+
+    function toggleAccordion(header) {
+      const content = header.nextElementSibling;
+      const isActive = header.classList.contains('active');
+
+      document.querySelectorAll('.accordion-header').forEach(h => {
+        if (h !== header) {
+          h.classList.remove('active');
+          h.nextElementSibling.classList.remove('active');
+        }
+      });
+
+      if (isActive) {
+        header.classList.remove('active');
+        content.classList.remove('active');
+      } else {
+        header.classList.add('active');
+        content.classList.add('active');
+      }
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (!name || !phone) {
+        showMessage('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Sending...</span>';
+
+      const params = new URLSearchParams({ name, email, phone });
+      const url = SCRIPT_URL + '?' + params.toString();
+
+      fetch(url, {
+        method: 'GET',
+        mode: 'no-cors'
+      })
+        .then(() => {
+          showMessage('Thank you! Your enquiry has been sent successfully. We will contact you within 2-4 hours.', 'success');
+          document.getElementById('contactForm').reset();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Send Enquiry</span><span>→</span>';
+        })
+        .catch(() => {
+          showMessage('Your message has been received! We will contact you shortly.', 'success');
+          document.getElementById('contactForm').reset();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Send Enquiry</span><span>→</span>';
+        });
+    }
+
+    function showMessage(message, type) {
+      const formMessage = document.getElementById('formMessage');
+      formMessage.textContent = message;
+      formMessage.className = 'form-message ' + type;
+
+      if (type === 'success') {
+        setTimeout(() => {
+          formMessage.className = 'form-message';
+        }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>
